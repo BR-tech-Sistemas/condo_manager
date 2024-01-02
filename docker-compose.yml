@@ -1,0 +1,39 @@
+version: '3.7'
+
+services:
+  laravel:
+    container_name: 'laravel_${APP_NAME}'
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Docker/Dockerfile
+    user: '${UID:-1000}:${UIG:-1000}'
+    ports:
+      - "80:8000"
+    networks:
+      - laravel-network
+    command: "php artisan serve --host=0.0.0.0 --port=8000"
+    volumes:
+      - './:/app'
+
+  mysql:
+    image: mysql:8.0
+    container_name: 'mysql_${APP_NAME}'
+    environment:
+      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: '${DB_DATABASE}'
+      MYSQL_USER: '${DB_USERNAME}'
+      MYSQL_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    ports:
+      - "${DB_PORT}:3306"
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    networks:
+      - laravel-network
+
+
+networks:
+  laravel-network:
+    driver: bridge
