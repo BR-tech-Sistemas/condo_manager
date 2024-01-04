@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   laravel:
-    container_name: 'laravel_${APP_NAME}'
+    container_name: 'laravel'
     restart: unless-stopped
     build:
       context: .
@@ -18,7 +18,7 @@ services:
 
   mysql:
     image: mysql:8.0
-    container_name: 'mysql_${APP_NAME}'
+    container_name: 'mysql'
     environment:
       MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
       MYSQL_ROOT_HOST: "%"
