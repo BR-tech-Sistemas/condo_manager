@@ -8,5 +8,5 @@ use Illuminate\Auth\Access\Response;
 
 class RolePolicy extends BasePolicy
 {
-    public string $permission = 'roles';
+    public ?string $permission = 'roles';
 }
