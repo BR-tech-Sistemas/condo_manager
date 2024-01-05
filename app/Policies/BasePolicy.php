@@ -6,14 +6,14 @@ use App\Models\User;
 
 class BasePolicy
 {
-    public string $permission;
+    public ?string $permission;
 
     /**
      * Perform pre-authorization checks.
      */
     public function before(User $user, string $ability): bool|null
     {
-        if ($user->isSuperAdmin()) {
+        if ($user->isSuperAdmin() || is_null($this->permission)) {
             return true;
         }
 
