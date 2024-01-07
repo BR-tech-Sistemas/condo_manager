@@ -12,8 +12,6 @@ class RegisterCondo extends RegisterTenant
 {
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
-    protected static string $view = 'filament-panels::pages.tenancy.register-tenant';
-
     public static function getLabel(): string
     {
         return 'Registar condomínio';

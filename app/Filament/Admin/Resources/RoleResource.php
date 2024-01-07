@@ -37,6 +37,7 @@ class RoleResource extends Resource
                 Forms\Components\Section::make('Permissões')
                     ->schema([
                         Forms\Components\CheckboxList::make('permissions')
+                            ->columns(3)
                             ->label('Permissões')
                             ->relationship(titleAttribute: 'name')
                             ->bulkToggleable(),
@@ -54,6 +55,7 @@ class RoleResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('permissions.name')
                     ->label('Permissões')
+                    ->wrap()
                     ->toggleable()
                     ->sortable()
                     ->searchable(),

@@ -20,39 +20,54 @@ class RoleAndPermissionSeeder extends Seeder
         // Reset cached roles and permissions
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // create permissions
+        // create or update permissions
         foreach ($this->getPermissionsName() as $permissionName => $permission) {
-            Permission::create([
+            Permission::query()->updateOrCreate([
                 'name' => $permissionName
             ]);
         }
 
-        $superAdmin = User::create([
-            'name' => 'Super Admin',
-            'email' => 'super@admin.com',
-            'email_verified_at' => now(),
-            'password' => Hash::make('password')
-        ]);
+        if (env('CREATE_USERS_ON_SEED', true)){
+            $superAdmin = User::create([
+                'name' => 'Super Admin',
+                'email' => 'super@admin.com',
+                'email_verified_at' => now(),
+                'password' => Hash::make('password')
+            ]);
 
-        // create roles and assign created permissions
+            // create roles and assign created permissions
 
-        $role = Role::create([
-            'name' => 'super-admin'
-        ]);
-        $role->givePermissionTo(Permission::all());
+            $role = Role::create([
+                'name' => 'super-admin'
+            ]);
+            $role->givePermissionTo(Permission::all());
 
-        $superAdmin->assignRole($role);
+            $superAdmin->assignRole($role);
+        }
+
     }
 
     protected function getPermissionsName(): array
     {
         return [
-            //Clients Permissions
+            //Users Permissions
             'users create' => true,
             'users edit' => true,
             'users list' => true,
             'users delete' => true,
             'users restore' => true,
+            //Blocks Permissions
+            'blocks create' => true,
+            'blocks edit' => true,
+            'blocks list' => true,
+            'blocks delete' => true,
+            'blocks restore' => true,
+            //Apartments Permissions
+            'apartments create' => true,
+            'apartments edit' => true,
+            'apartments list' => true,
+            'apartments delete' => true,
+            'apartments restore' => true,
         ];
     }
 }
