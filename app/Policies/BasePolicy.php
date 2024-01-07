@@ -6,7 +6,7 @@ use App\Models\User;
 
 class BasePolicy
 {
-    public ?string $permission;
+    public ?string $permission = null;
 
     /**
      * Perform pre-authorization checks.
