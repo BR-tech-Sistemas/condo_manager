@@ -48,11 +48,11 @@ class RoleAndPermissionSeeder extends Seeder
     {
         return [
             //Clients Permissions
-            'roles create' => true,
-            'roles edit' => true,
-            'roles list' => true,
-            'roles delete' => true,
-            'roles restore' => true,
+            'users create' => true,
+            'users edit' => true,
+            'users list' => true,
+            'users delete' => true,
+            'users restore' => true,
         ];
     }
 }
