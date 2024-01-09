@@ -58,14 +58,24 @@ class CondoResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nome')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('cep')
                     ->label('CEP')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('address')
                     ->label('Endereço')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('type')
+                    ->label('Tipo de Condomínio')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('blocks.title')
+                    ->wrap()
+                    ->label('Blocos')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Criado em')
@@ -90,7 +100,7 @@ class CondoResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\BlocksRelationManager::class
         ];
     }
 

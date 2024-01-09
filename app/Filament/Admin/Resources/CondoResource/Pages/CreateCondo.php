@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateCondo extends CreateRecord
 {
     protected static string $resource = CondoResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

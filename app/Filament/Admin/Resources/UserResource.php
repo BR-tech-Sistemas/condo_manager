@@ -78,6 +78,10 @@ class UserResource extends Resource
                     ->label('Email verificado')
                     ->dateTime('d/m/y H:i')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('condos.name')
+                    ->label('Condomínios')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('roles.name')
                     ->label('Perfil')
                     ->sortable()
@@ -85,10 +89,10 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('stripe_id')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('trial_ends_at')
-                    ->dateTime()
+                    ->dateTime('d/m/y H:i')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                    ->dateTime('d/m/y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])

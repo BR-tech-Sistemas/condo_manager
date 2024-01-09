@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Admin\Resources\CondoResource\Pages;
+namespace App\Filament\App\Resources\BlockResource\Pages;
 
-use App\Filament\Admin\Resources\CondoResource;
+use App\Filament\App\Resources\BlockResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditCondo extends EditRecord
+class EditBlock extends EditRecord
 {
-    protected static string $resource = CondoResource::class;
+    protected static string $resource = BlockResource::class;
 
     protected function getHeaderActions(): array
     {
