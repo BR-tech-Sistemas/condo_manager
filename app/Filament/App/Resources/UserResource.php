@@ -60,20 +60,7 @@ class UserResource extends Resource
                                 static fn(null|string $state):
                                 bool => filled($state),
                             )
-                            ->confirmed()
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('password_confirmation')
-                            ->label(
-                                fn(string $operation): string => $operation === 'edit' ? 'Confirmar Nova Senha' : 'Confirmar Senha',
-                            )
-                            ->placeholder(
-                                fn(string $operation): string => $operation === 'edit' ? 'Confirmar Nova Senha' : 'Confirmar Senha',
-                            )
-                            ->password()
-                            ->maxLength(255)
-                            ->required(
-                                fn(string $operation): bool => $operation === 'create'
-                            ),
                     ]),
                 Forms\Components\Section::make('Perfil do usuário')
                     ->columns()
