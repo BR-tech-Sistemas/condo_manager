@@ -7,12 +7,10 @@ use App\Filament\App\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Hash;
 
 class UserResource extends Resource
@@ -45,12 +43,10 @@ class UserResource extends Resource
                             ->maxLength(255),
                         Forms\Components\TextInput::make('password')
                             ->label(
-                                static fn(Page $livewire):
-                                string => ($livewire instanceof Pages\EditUser) ? 'Nova Senha' : 'Senha',
+                                fn(string $operation): string => $operation === 'edit' ? 'Nova Senha' : 'Senha',
                             )
                             ->placeholder(
-                                static fn(Page $livewire):
-                                string => ($livewire instanceof Pages\EditUser) ? 'Nova Senha' : 'Senha',
+                                fn(string $operation): string => $operation === 'edit' ? 'Nova Senha' : 'Senha',
                             )
                             ->password()
                             ->dehydrateStateUsing(
@@ -58,8 +54,7 @@ class UserResource extends Resource
                                 null|string => filled($state) ? Hash::make($state) : null
                             )
                             ->required(
-                                static fn(Page $livewire):
-                                string => $livewire instanceof Pages\CreateUser,
+                                fn(string $operation): bool => $operation === 'create'
                             )
                             ->dehydrated(
                                 static fn(null|string $state):
@@ -69,18 +64,15 @@ class UserResource extends Resource
                             ->maxLength(255),
                         Forms\Components\TextInput::make('password_confirmation')
                             ->label(
-                                static fn(Page $livewire):
-                                string => ($livewire instanceof Pages\EditUser) ? 'Confirmar Nova Senha' : 'Confirmar Senha',
+                                fn(string $operation): string => $operation === 'edit' ? 'Confirmar Nova Senha' : 'Confirmar Senha',
                             )
                             ->placeholder(
-                                static fn(Page $livewire):
-                                string => ($livewire instanceof Pages\EditUser) ? 'Confirmar Nova Senha' : 'Confirmar Senha',
+                                fn(string $operation): string => $operation === 'edit' ? 'Confirmar Nova Senha' : 'Confirmar Senha',
                             )
                             ->password()
                             ->maxLength(255)
                             ->required(
-                                static fn(Page $livewire):
-                                string => $livewire instanceof Pages\CreateUser,
+                                fn(string $operation): bool => $operation === 'create'
                             ),
                     ]),
                 Forms\Components\Section::make('Perfil do usuário')
@@ -91,8 +83,8 @@ class UserResource extends Resource
                             ->preload()
                             ->relationship(
                                 titleAttribute: 'name',
-                                modifyQueryUsing: function (Builder $query){
-                                    if (! auth()->user()->hasAnyRole(['super-admin'])){
+                                modifyQueryUsing: function (Builder $query) {
+                                    if (!auth()->user()->hasAnyRole(['super-admin'])) {
                                         $query->where('name', "!=", 'super-admin');
                                     }
                                 }
