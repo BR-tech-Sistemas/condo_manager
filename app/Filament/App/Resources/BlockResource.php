@@ -70,13 +70,16 @@ class BlockResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('condo.name')
                     ->label('Condomínio')
-                    ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('title')
                     ->label('Nome do bloco')
                     ->alignCenter()
                     ->sortable()
                     ->searchable(),
+                Tables\Columns\TextColumn::make('apartments.title')
+                    ->label('Apartamentos')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\IconColumn::make('has_sub_manager')
                     ->label('Tem subsíndico?')
                     ->alignCenter()
@@ -110,7 +113,7 @@ class BlockResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\ApartmentsRelationManager::class,
         ];
     }
 
