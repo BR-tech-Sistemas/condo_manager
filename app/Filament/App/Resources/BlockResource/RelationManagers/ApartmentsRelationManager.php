@@ -3,6 +3,7 @@
 namespace App\Filament\App\Resources\BlockResource\RelationManagers;
 
 use App\Models\User;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -22,80 +23,85 @@ class ApartmentsRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Informações do Apartamento')
-                    ->aside()
-                    ->columns()
-                    ->schema([
-                        Forms\Components\TextInput::make('title')
-                            ->label('Número do Apartamento')
-                            ->required()
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('parking_lots')
-                            ->label('Vagas de garagem')
-                            ->numeric()
-                            ->required(),
-                    ]),
-                Forms\Components\Section::make('Situação do Apartamento')
-                    ->aside()
-                    ->columns()
-                    ->schema([
-                        Forms\Components\Toggle::make('for_rent')
-                            ->label('Para alugar?')
-                            ->offIcon('heroicon-o-x-mark')
-                            ->offColor('danger')
-                            ->onIcon('heroicon-s-check')
-                            ->inline(false)
-                            ->required(),
-                        Forms\Components\Toggle::make('for_sale')
-                            ->label('À venda?')
-                            ->offIcon('heroicon-o-x-mark')
-                            ->offColor('danger')
-                            ->onIcon('heroicon-o-check')
-                            ->inline(false)
-                            ->required(),
-                    ]),
-                Forms\Components\Section::make('Moradores do Apartamento')
-                    ->aside()
-                    ->schema([
-                        Forms\Components\Repeater::make('residents')
-                            ->label('')
-                            ->addActionLabel('Adicionar morador')
+                Forms\Components\Tabs::make('Tabs')
+                    ->columnSpanFull()
+                    ->tabs([
+                        Forms\Components\Tabs\Tab::make('Informações do Apartamento')
+                            ->icon('heroicon-o-building-storefront')
                             ->columns()
-                            ->relationship()
                             ->schema([
-                                Forms\Components\Select::make('user_id')
-                                    ->columnSpanFull()
-                                    ->label('Morador')
-                                    ->native(false)
-                                    ->relationship(
-                                        'user',
-                                        'name',
-                                        function (Builder $query){
-                                            $query->whereHas('condos', function ($query){
-                                                return $query->whereIn('condo_id', auth()->user()->condos->pluck('id'));
-                                            });
-                                        }
-                                    )
-                                    ->searchable()
-                                    ->preload()
+                                Forms\Components\TextInput::make('title')
+                                    ->label('Número do Apartamento')
+                                    ->required()
+                                    ->maxLength(255),
+                                Forms\Components\TextInput::make('parking_lots')
+                                    ->label('Vagas de garagem')
+                                    ->numeric()
                                     ->required(),
-                                Forms\Components\Toggle::make('is_owner')
-                                    ->label('Proprietário?')
+                            ]),
+                        Forms\Components\Tabs\Tab::make('Situação do Apartamento')
+                            ->icon('heroicon-o-swatch')
+                            ->columns(4)
+                            ->schema([
+                                Forms\Components\Toggle::make('for_rent')
+                                    ->label('Para alugar?')
                                     ->offIcon('heroicon-o-x-mark')
                                     ->offColor('danger')
                                     ->onIcon('heroicon-s-check')
                                     ->inline(false)
                                     ->required(),
-                                Forms\Components\Toggle::make('is_tenant')
-                                    ->label('Inquilino?')
+                                Forms\Components\Toggle::make('for_sale')
+                                    ->label('À venda?')
                                     ->offIcon('heroicon-o-x-mark')
                                     ->offColor('danger')
-                                    ->onIcon('heroicon-s-check')
+                                    ->onIcon('heroicon-o-check')
                                     ->inline(false)
                                     ->required(),
-                            ])
-                            ->itemLabel(fn(): string => 'Informações do Morador'),
+                            ]),
+                        Forms\Components\Tabs\Tab::make('Moradores do Apartamento')
+                            ->icon('heroicon-o-users')
+                            ->schema([
+                                Forms\Components\Repeater::make('residents')
+                                    ->label('')
+                                    ->addActionLabel('Adicionar morador')
+                                    ->columns()
+                                    ->relationship()
+                                    ->schema([
+                                        Forms\Components\Select::make('user_id')
+                                            ->columnSpanFull()
+                                            ->label('Morador')
+                                            ->native(false)
+                                            ->relationship(
+                                                'user',
+                                                'name',
+                                                function (Builder $query){
+                                                    $query->whereHas('condos', function ($query){
+                                                        return $query->whereIn('condo_id', auth()->user()->condos->pluck('id'));
+                                                    });
+                                                }
+                                            )
+                                            ->searchable()
+                                            ->preload()
+                                            ->required(),
+                                        Forms\Components\Toggle::make('is_owner')
+                                            ->label('Proprietário?')
+                                            ->offIcon('heroicon-o-x-mark')
+                                            ->offColor('danger')
+                                            ->onIcon('heroicon-s-check')
+                                            ->inline(false)
+                                            ->required(),
+                                        Forms\Components\Toggle::make('is_tenant')
+                                            ->label('Inquilino?')
+                                            ->offIcon('heroicon-o-x-mark')
+                                            ->offColor('danger')
+                                            ->onIcon('heroicon-s-check')
+                                            ->inline(false)
+                                            ->required(),
+                                    ])
+                                    ->itemLabel(fn(): string => 'Informações do Morador'),
+                            ]),
                     ]),
+
             ]);
     }
 
