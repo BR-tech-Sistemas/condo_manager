@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Barryvdh\Debugbar\Facades\Debugbar;
+use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Livewire\Features\SupportLockedProperties\BaseLocked;
 
 class Apartment extends Model
 {
@@ -36,5 +39,17 @@ class Apartment extends Model
     public function residents(): HasMany
     {
         return $this->hasMany(ApartmentUser::class);
+    }
+
+    public function condos()
+    {
+        return $this->hasManyThrough(
+            Condo::class,
+            Block::class,
+            'id',
+            'id',
+            'block_id',
+            'condo_id',
+        );
     }
 }
