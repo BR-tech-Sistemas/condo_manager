@@ -26,37 +26,43 @@ class BlockResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Nome')
-                    ->schema([
-                        Forms\Components\TextInput::make('title')
-                            ->label('Nome do Bloco')
-                            ->required()
-                            ->maxLength(255),
-                    ]),
-                Forms\Components\Section::make('Configurações do Bloco')
-                    ->schema([
-                        Forms\Components\Toggle::make('has_sub_manager')
-                            ->label('Tem subsíndico')
-                            ->default(false)
-                            ->offIcon('heroicon-o-x-mark')
-                            ->offColor('danger')
-                            ->onIcon('heroicon-s-check')
-                            ->required(),
-                        Forms\Components\Toggle::make('has_apartments')
-                            ->label('Tem apartamentos')
-                            ->default(true)
-                            ->offIcon('heroicon-o-x-mark')
-                            ->offColor('danger')
-                            ->onIcon('heroicon-o-check')
-                            ->required(),
-                        Forms\Components\Toggle::make('has_parking_lot')
-                            ->label('Tem estacionamento')
-                            ->default(true)
-                            ->offIcon('heroicon-o-x-mark')
-                            ->offColor('danger')
-                            ->onIcon('heroicon-s-check')
-                            ->required(),
-                    ]),
+                Forms\Components\Split::make([
+                    Forms\Components\Section::make('Nome')
+                        ->schema([
+                            Forms\Components\TextInput::make('title')
+                                ->label('Nome do Bloco')
+                                ->required()
+                                ->maxLength(255),
+                        ]),
+                ])->from('md'),
+
+                Forms\Components\Split::make([
+                    Forms\Components\Section::make('Configurações do Bloco')
+                        ->schema([
+                            Forms\Components\Toggle::make('has_sub_manager')
+                                ->label('Tem subsíndico')
+                                ->default(false)
+                                ->offIcon('heroicon-o-x-mark')
+                                ->offColor('danger')
+                                ->onIcon('heroicon-s-check')
+                                ->required(),
+                            Forms\Components\Toggle::make('has_apartments')
+                                ->label('Tem apartamentos')
+                                ->default(true)
+                                ->offIcon('heroicon-o-x-mark')
+                                ->offColor('danger')
+                                ->onIcon('heroicon-o-check')
+                                ->required(),
+                            Forms\Components\Toggle::make('has_parking_lot')
+                                ->label('Tem estacionamento')
+                                ->default(true)
+                                ->offIcon('heroicon-o-x-mark')
+                                ->offColor('danger')
+                                ->onIcon('heroicon-s-check')
+                                ->required(),
+                        ]),
+                ])->from('md'),
+
                 /*Forms\Components\Section::make()
                     ->schema([
                         Forms\Components\KeyValue::make('infrastructure'),

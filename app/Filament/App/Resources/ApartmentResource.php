@@ -15,7 +15,10 @@ class ApartmentResource extends Resource
 {
     protected static ?string $model = Apartment::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-building-office';
+    protected static ?string $modelLabel = "Apartamento";
+    protected static ?string $pluralModelLabel = "Apartamentos";
+    protected static ?string $navigationGroup = 'Infraestrutura';
 
     public static function form(Form $form): Form
     {
@@ -43,21 +46,54 @@ class ApartmentResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('block.title')
-                    ->numeric()
-                    ->sortable(),
+                    ->label('Nome do bloco')
+                    ->alignCenter()
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('title')
+                    ->label('Número')
+                    ->alignCenter()
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\IconColumn::make('for_rent')
+                    ->label('Para alugar?')
+                    ->alignCenter()
+                    ->sortable()
                     ->boolean(),
                 Tables\Columns\IconColumn::make('for_sale')
+                    ->label('À venda?')
+                    ->alignCenter()
+                    ->sortable()
                     ->boolean(),
                 Tables\Columns\TextColumn::make('parking_lots')
+                    ->label('Vagas de Estacionamento')
+                    ->alignCenter()
+                    ->searchable()
                     ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('residents.user.name')
+                    ->label('Moradores')
+                    ->wrap()
+                    ->alignCenter()
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
-                //
+                Tables\Filters\TernaryFilter::make('for_rent')
+                    ->label('Para alugar?')
+                    ->placeholder('Todos Apartamentos')
+                    ->trueLabel('Sim')
+                    ->falseLabel('Não'),
+                Tables\Filters\TernaryFilter::make('for_sale')
+                    ->label('À venda?')
+                    ->placeholder('Todos Apartamentos')
+                    ->trueLabel('Sim')
+                    ->falseLabel('Não'),
             ])
+            ->deferFilters()
+            ->filtersApplyAction(
+                fn (Tables\Actions\Action $action) => $action->label('Aplicar filtros'),
+            )
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
