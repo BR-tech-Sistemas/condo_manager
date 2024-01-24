@@ -10,7 +10,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use http\Client\Curl\User;
 use Illuminate\Database\Eloquent\Builder;
 
 class ApartmentResource extends Resource
@@ -27,81 +26,95 @@ class ApartmentResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Split::make([
-                    Forms\Components\Section::make([
-                        Forms\Components\Select::make('block_id')
-                            ->label('Bloco')
-                            ->relationship(
-                                'block',
-                                'title',
-                                function (Builder $query){
-                                    $query->whereHas('condo', function ($query){
-                                        return $query->whereIn('condo_id', auth()->user()->condos->pluck('id'));
-                                    });
-                                }
-                            )
-                            ->native(false)
-                            ->required(),
-                        Forms\Components\TextInput::make('title')
-                            ->label('Nº Apartamento')
-                            ->required()
-                            ->maxLength(255),
-                    ]),
-                ]),
-                Forms\Components\Split::make([
-                    Forms\Components\Section::make([
-                        Forms\Components\ToggleButtons::make('for_rent')
-                            ->label('Para alugar?')
-                            ->boolean()
-                            ->inline()
-                            ->required(),
-                        Forms\Components\ToggleButtons::make('for_sale')
-                            ->label('Para venda?')
-                            ->boolean()
-                            ->inline()
-                            ->required(),
-                        Forms\Components\TextInput::make('parking_lots')
-                            ->columnSpanFull()
-                            ->label('Vagas de garagem')
-                            ->required()
-                            ->numeric()
-                            ->default(0),
-                    ])->columns(),
-                ]),
-                Forms\Components\Section::make([
-                    Forms\Components\Repeater::make('residents')
-                        ->label('')
-                        ->addActionLabel('Adicionar morador')
-                        ->columns(3)
-                        ->relationship()
+                    Forms\Components\Section::make('Informações Básicas')
+                        ->collapsible()
+                        ->description('informações básicas sobre o apartamento.')
+                        ->icon('heroicon-s-building-office')
                         ->schema([
-                            Forms\Components\Select::make('user_id')
-                                ->label('Morador')
-                                ->native(false)
+                            Forms\Components\Select::make('block_id')
+                                ->label('Bloco')
                                 ->relationship(
-                                    'user',
-                                    'name',
+                                    'block',
+                                    'title',
                                     function (Builder $query){
-                                        $query->whereHas('condos', function ($query){
+                                        $query->whereHas('condo', function ($query){
                                             return $query->whereIn('condo_id', auth()->user()->condos->pluck('id'));
                                         });
                                     }
                                 )
-                                ->searchable()
-                                ->preload()
+                                ->native(false)
                                 ->required(),
-                            Forms\Components\ToggleButtons::make('is_owner')
-                                ->label('Proprietário?')
-                                ->boolean()
-                                ->inline()
-                                ->required(),
-                            Forms\Components\ToggleButtons::make('is_tenant')
-                                ->label('Inquilino??')
-                                ->boolean()
-                                ->inline()
-                                ->required(),
-                        ])
-                        ->itemLabel(fn(): string => 'Informações do Morador'),
+                            Forms\Components\TextInput::make('title')
+                                ->label('Nº Apartamento')
+                                ->required()
+                                ->maxLength(255),
+                        ]),
                 ]),
+                Forms\Components\Split::make([
+                    Forms\Components\Section::make('Informações Adicionais')
+                        ->collapsible()
+                        ->description('informações extras sobre o apartamento.')
+                        ->icon('heroicon-o-cog')
+                        ->columns()
+                        ->schema([
+                            Forms\Components\ToggleButtons::make('for_rent')
+                                ->label('Para alugar?')
+                                ->boolean()
+                                ->inline()
+                                ->required(),
+                            Forms\Components\ToggleButtons::make('for_sale')
+                                ->label('Para venda?')
+                                ->boolean()
+                                ->inline()
+                                ->required(),
+                            Forms\Components\TextInput::make('parking_lots')
+                                ->columnSpanFull()
+                                ->label('Vagas de garagem')
+                                ->required()
+                                ->numeric()
+                                ->default(0),
+                        ]),
+                ]),
+                Forms\Components\Section::make('Informações dos moradores')
+                    ->collapsible()
+                    ->description('Cadastro dos moradores desse apartamento. Nesse local é possível registrar os inquilinos e proprietários.')
+                    ->icon('heroicon-o-users')
+                    ->persistCollapsed()
+                    ->schema([
+                        Forms\Components\Repeater::make('residents')
+                            ->label('')
+                            ->addActionLabel('Adicionar morador')
+                            ->columns(3)
+                            ->relationship()
+                            ->schema([
+                                Forms\Components\Select::make('user_id')
+                                    ->label('Morador')
+                                    ->native(false)
+                                    ->relationship(
+                                        'user',
+                                        'name',
+                                        function (Builder $query){
+                                            $query->whereHas('condos', function ($query){
+                                                return $query->whereIn('condo_id', auth()->user()->condos->pluck('id'));
+                                            });
+                                        }
+                                    )
+                                    ->searchable()
+                                    ->preload()
+                                    ->required(),
+                                Forms\Components\ToggleButtons::make('is_owner')
+                                    ->label('Proprietário?')
+                                    ->boolean()
+                                    ->inline()
+                                    ->required(),
+                                Forms\Components\ToggleButtons::make('is_tenant')
+                                    ->label('Inquilino??')
+                                    ->boolean()
+                                    ->inline()
+                                    ->required(),
+                            ])
+                            ->itemLabel(fn(): string => 'Informações do Morador'),
+                    ]),
             ]);
     }
 
@@ -160,7 +173,7 @@ class ApartmentResource extends Resource
             )
             ->actions([
                 Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
+                    /*Tables\Actions\ViewAction::make(),*/
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
                 ])->tooltip('Ações')
@@ -184,7 +197,7 @@ class ApartmentResource extends Resource
         return [
             'index' => Pages\ListApartments::route('/'),
             'create' => Pages\CreateApartment::route('/create'),
-            'view' => Pages\ViewApartment::route('/{record}'),
+            /*'view' => Pages\ViewApartment::route('/{record}'),*/
             'edit' => Pages\EditApartment::route('/{record}/edit'),
         ];
     }
