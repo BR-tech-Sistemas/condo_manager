@@ -33,6 +33,7 @@ class AppPanelProvider extends PanelProvider
             ->login()
             ->registration()
             ->profile()
+            ->spa()
             ->sidebarCollapsibleOnDesktop()
             ->colors([
                 'primary' => Color::Green,
