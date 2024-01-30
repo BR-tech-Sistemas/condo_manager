@@ -19,6 +19,7 @@ export default defineConfig({
         }),
     ],
     server: {
-        host: host
+        host: 'node',
+        hmr: { host}
     },
 });
