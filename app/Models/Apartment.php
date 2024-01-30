@@ -2,13 +2,9 @@
 
 namespace App\Models;
 
-use Barryvdh\Debugbar\Facades\Debugbar;
-use Filament\Facades\Filament;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Livewire\Features\SupportLockedProperties\BaseLocked;
 
 class Apartment extends Model
 {
