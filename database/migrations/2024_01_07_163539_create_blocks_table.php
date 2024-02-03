@@ -18,7 +18,6 @@ return new class extends Migration
             $table->boolean('has_sub_manager')->default(false);
             $table->boolean('has_apartments')->default(true);
             $table->boolean('has_parking_lot')->default(true);
-            $table->text('infrastructure')->nullable();
             $table->timestamps();
         });
     }

@@ -5,6 +5,7 @@ namespace App\Filament\App\Resources;
 use App\Filament\App\Resources\ApartmentResource\Pages;
 use App\Filament\App\Resources\ApartmentResource\RelationManagers;
 use App\Models\Apartment;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,11 +16,11 @@ use Illuminate\Database\Eloquent\Builder;
 class ApartmentResource extends Resource
 {
     protected static ?string $model = Apartment::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-building-office';
     protected static ?string $modelLabel = "Apartamento";
     protected static ?string $pluralModelLabel = "Apartamentos";
     protected static ?string $navigationGroup = 'Infraestrutura';
+    protected static ?string $tenantOwnershipRelationshipName = 'condo';
 
     public static function form(Form $form): Form
     {
@@ -36,9 +37,9 @@ class ApartmentResource extends Resource
                                 ->relationship(
                                     'block',
                                     'title',
-                                    function (Builder $query){
-                                        $query->whereHas('condo', function ($query){
-                                            return $query->whereIn('condo_id', auth()->user()->condos->pluck('id'));
+                                    function (Builder $query) {
+                                        $query->whereHas('condo', function ($query) {
+                                            return $query->where('condo_id', Filament::getTenant()->id);
                                         });
                                     }
                                 )
@@ -59,11 +60,13 @@ class ApartmentResource extends Resource
                         ->schema([
                             Forms\Components\ToggleButtons::make('for_rent')
                                 ->label('Para alugar?')
+                                ->default(false)
                                 ->boolean()
                                 ->inline()
                                 ->required(),
                             Forms\Components\ToggleButtons::make('for_sale')
                                 ->label('Para venda?')
+                                ->default(false)
                                 ->boolean()
                                 ->inline()
                                 ->required(),
@@ -93,9 +96,9 @@ class ApartmentResource extends Resource
                                     ->relationship(
                                         'user',
                                         'name',
-                                        function (Builder $query){
-                                            $query->whereHas('condos', function ($query){
-                                                return $query->whereIn('condo_id', auth()->user()->condos->pluck('id'));
+                                        function (Builder $query) {
+                                            $query->whereHas('condos', function ($query) {
+                                                return $query->where('condo_id', Filament::getTenant()->id);
                                             });
                                         }
                                     )
@@ -104,11 +107,13 @@ class ApartmentResource extends Resource
                                     ->required(),
                                 Forms\Components\ToggleButtons::make('is_owner')
                                     ->label('Proprietário?')
+                                    ->default(true)
                                     ->boolean()
                                     ->inline()
                                     ->required(),
                                 Forms\Components\ToggleButtons::make('is_tenant')
                                     ->label('Inquilino??')
+                                    ->default(false)
                                     ->boolean()
                                     ->inline()
                                     ->required(),
@@ -169,7 +174,7 @@ class ApartmentResource extends Resource
             ])
             ->deferFilters()
             ->filtersApplyAction(
-                fn (Tables\Actions\Action $action) => $action->label('Aplicar filtros'),
+                fn(Tables\Actions\Action $action) => $action->label('Aplicar filtros'),
             )
             ->actions([
                 Tables\Actions\ActionGroup::make([

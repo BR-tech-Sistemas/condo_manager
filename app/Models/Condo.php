@@ -25,10 +25,10 @@ class Condo extends Model
     }
 
     /**
-     * @return HasManyThrough
+     * @return HasMany
      */
-    public function apartments(): HasManyThrough
+    public function apartments(): HasMany
     {
-        return $this->hasManyThrough(Apartment::class, Block::class);
+        return $this->hasMany(Apartment::class);
     }
 }

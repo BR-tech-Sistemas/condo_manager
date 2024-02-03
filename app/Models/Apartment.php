@@ -2,16 +2,18 @@
 
 namespace App\Models;
 
+use App\Traits\HasCondo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Apartment extends Model
 {
+    use HasCondo;
     /**
      * @var string[]
      */
-    protected $fillable = ['block_id', 'title', 'for_rent', 'for_sale', 'parking_lots'];
+    protected $fillable = ['condo_id', 'block_id', 'title', 'for_rent', 'for_sale', 'parking_lots'];
 
     /**
      * @var string[]
@@ -35,17 +37,5 @@ class Apartment extends Model
     public function residents(): HasMany
     {
         return $this->hasMany(ApartmentUser::class);
-    }
-
-    public function condos()
-    {
-        return $this->hasManyThrough(
-            Condo::class,
-            Block::class,
-            'id',
-            'id',
-            'block_id',
-            'condo_id',
-        );
     }
 }

@@ -19,7 +19,6 @@ class BlockResource extends Resource
     protected static ?string $modelLabel = "Bloco";
     protected static ?string $pluralModelLabel = "Blocos";
     protected static ?string $navigationGroup = 'Infraestrutura';
-
     protected static ?string $tenantOwnershipRelationshipName = 'condo';
 
     public static function form(Form $form): Form

@@ -3,15 +3,16 @@
 namespace App\Filament\App\Widgets;
 
 use App\Models\Apartment;
+use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
 
-class ApartmentsForRent extends BaseWidget
+class ApartmentsForSale extends BaseWidget
 {
-    protected static ?int $sort = 2;
+    protected static ?int $sort = 3;
     protected int|string|array $columnSpan = 1;
-    protected static ?string $heading = 'Apartamentos para Alugar';
+    protected static ?string $heading = 'Apartamentos para Vender';
 
     public function table(Table $table): Table
     {
@@ -19,7 +20,7 @@ class ApartmentsForRent extends BaseWidget
             ->query(
                 Apartment::query()
                     ->with(['block', 'residents'])
-                    ->where('for_rent', true)
+                    ->where('for_sale', true)
             )
             ->columns([
                 TextColumn::make('block.title')
@@ -34,6 +35,6 @@ class ApartmentsForRent extends BaseWidget
             ])
             ->paginated(false)
             ->emptyStateIcon('heroicon-o-home')
-            ->emptyStateHeading('Nenhum apartamento para Alugar.');
+            ->emptyStateHeading('Nenhum apartamento para vender.');
     }
 }

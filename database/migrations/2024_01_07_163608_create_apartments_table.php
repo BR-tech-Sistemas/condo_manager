@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('apartments', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(\App\Models\Condo::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(\App\Models\Block::class)->constrained()->cascadeOnDelete();
             $table->string('title');
             $table->boolean('for_rent')->default(false);
