@@ -14,6 +14,9 @@ class HasCondoScope implements Scope
      */
     public function apply(Builder $builder, Model $model): void
     {
+        if (auth()->user()->hasRole('super-admin')) {
+            return;
+        }
         $builder->where('condo_id', Filament::getTenant()->id);
     }
 }

@@ -68,6 +68,13 @@ class RoleAndPermissionSeeder extends Seeder
             'apartments list' => true,
             'apartments delete' => true,
             'apartments restore' => true,
+            //Visitors Permissions
+            'visitors create' => true,
+            'visitors edit' => true,
+            'visitors list' => true,
+            'visitors delete' => true,
+            'visitors restore' => true,
+
         ];
     }
 }

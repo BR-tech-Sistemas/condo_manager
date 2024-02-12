@@ -38,4 +38,12 @@ class Apartment extends Model
     {
         return $this->hasMany(ApartmentUser::class);
     }
+
+    /**
+     * @return HasMany
+     */
+    public function visitors(): HasMany
+    {
+        return $this->hasMany(Visitor::class);
+    }
 }

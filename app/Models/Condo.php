@@ -31,4 +31,13 @@ class Condo extends Model
     {
         return $this->hasMany(Apartment::class);
     }
+
+
+    /**
+     * @return HasMany
+     */
+    public function visitors(): HasMany
+    {
+        return $this->hasMany(Visitor::class);
+    }
 }

@@ -3,6 +3,8 @@
 namespace App\Policies;
 
 use App\Models\User;
+use Illuminate\Auth\Access\Response;
+use Illuminate\Database\Eloquent\Model;
 
 class BasePolicy
 {
@@ -23,10 +25,11 @@ class BasePolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param Model|null $model
+     * @return bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user, ?Model $model = null)
     {
         return $user->hasPermissionTo("{$this->permission} list");
     }
@@ -34,10 +37,11 @@ class BasePolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param Model|null $model
+     * @return bool
      */
-    public function view(User $user)
+    public function view(User $user, ?Model $model = null)
     {
         return $user->hasPermissionTo("{$this->permission} list");
     }
@@ -45,10 +49,11 @@ class BasePolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param Model|null $model
+     * @return bool
      */
-    public function create(User $user)
+    public function create(User $user, ?Model $model = null)
     {
         return $user->hasPermissionTo("{$this->permission} create");
     }
@@ -56,10 +61,11 @@ class BasePolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param Model|null $model
+     * @return bool
      */
-    public function update(User $user)
+    public function update(User $user, ?Model $model = null)
     {
         return $user->hasPermissionTo("{$this->permission} edit");
     }
@@ -67,10 +73,11 @@ class BasePolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param Model|null $model
+     * @return bool
      */
-    public function delete(User $user)
+    public function delete(User $user, ?Model $model = null)
     {
         return $user->hasPermissionTo("{$this->permission} delete");
     }
@@ -78,10 +85,11 @@ class BasePolicy
     /**
      * Determine whether the user can delete whatever model.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param Model|null $model
+     * @return bool
      */
-    public function deleteAny(User $user)
+    public function deleteAny(User $user, ?Model $model = null)
     {
         return $user->hasPermissionTo("{$this->permission} delete");
     }
@@ -89,10 +97,11 @@ class BasePolicy
     /**
      * Determine whether the user can restore the model.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param Model|null $model
+     * @return bool
      */
-    public function restore(User $user)
+    public function restore(User $user, ?Model $model = null)
     {
         return $user->hasPermissionTo("{$this->permission} restore");
     }
@@ -100,10 +109,11 @@ class BasePolicy
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param Model|null $model
+     * @return bool
      */
-    public function forceDelete(User $user)
+    public function forceDelete(User $user, ?Model $model = null): bool
     {
         return $user->hasPermissionTo("{$this->permission} delete");
     }
