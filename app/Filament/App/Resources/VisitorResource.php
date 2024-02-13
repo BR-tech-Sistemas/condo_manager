@@ -5,6 +5,7 @@ namespace App\Filament\App\Resources;
 use App\Filament\App\Resources\VisitorResource\Pages;
 use App\Filament\App\Resources\VisitorResource\RelationManagers;
 use App\Models\Visitor;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -53,7 +54,9 @@ class VisitorResource extends Resource
                                     titleAttribute: 'title',
                                     modifyQueryUsing: function (Builder $query) {
                                         if (! auth()->user()->hasAnyRole(['Síndico', 'Porteiro'])){
-                                            $query->whereIn('id', auth()->user()->apartments->pluck('id'));
+                                            $query
+                                                ->where('condo_id', Filament::getTenant()->id)
+                                                ->whereIn('id', auth()->user()->apartments->pluck('id'));
                                         }
                                     }
                                 )
@@ -122,6 +125,10 @@ class VisitorResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('apartment.block.title')
+                    ->alignCenter()
+                    ->label('Bloco')
+                    ->numeric(),
                 Tables\Columns\TextColumn::make('apartment_id')
                     ->alignCenter()
                     ->label('Apartamento')
@@ -169,7 +176,6 @@ class VisitorResource extends Resource
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
                     Tables\Actions\Action::make('Registrar Entrada')
-                        /*->method('registerEntry')*/
                         ->icon('heroicon-o-identification')
                         ->color('warning')
                         ->visible(auth()->user()->hasAnyRole(['Síndico', 'Porteiro'])),
