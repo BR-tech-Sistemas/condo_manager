@@ -40,4 +40,12 @@ class Condo extends Model
     {
         return $this->hasMany(Visitor::class);
     }
+
+    /**
+     * @return HasMany
+     */
+    public function commonAreas(): HasMany
+    {
+        return $this->hasMany(CommonArea::class);
+    }
 }

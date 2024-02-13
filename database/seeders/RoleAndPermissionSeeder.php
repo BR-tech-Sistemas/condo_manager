@@ -20,11 +20,40 @@ class RoleAndPermissionSeeder extends Seeder
         // Reset cached roles and permissions
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
+        $superAdminRole = Role::query()->updateOrCreate([
+            'name' => 'super-admin'
+        ]);
+
+        $sindicoRole = Role::query()->updateOrCreate([
+            'name' => 'Síndico'
+        ]);
+        $condominoRole = Role::query()->updateOrCreate([
+            'name' => 'Condômino'
+        ]);
+        $porteiroRole = Role::query()->updateOrCreate([
+            'name' => 'Porteiro'
+        ]);
+
         // create or update permissions
         foreach ($this->getPermissionsName() as $permissionName => $permission) {
-            Permission::query()->updateOrCreate([
+
+            $permissionModel = Permission::query()->updateOrCreate([
                 'name' => $permissionName
             ]);
+
+            if ($permission['super-admin']) {
+                $superAdminRole->givePermissionTo($permissionModel);
+            }
+            if ($permission['sindico']) {
+                $sindicoRole->givePermissionTo($permissionModel);
+            }
+            if ($permission['condomino']) {
+                $condominoRole->givePermissionTo($permissionModel);
+            }
+            if ($permission['porteiro']) {
+                $porteiroRole->givePermissionTo($permissionModel);
+            }
+
         }
 
         if (env('CREATE_USERS_ON_SEED', true)){
@@ -35,14 +64,7 @@ class RoleAndPermissionSeeder extends Seeder
                 'password' => Hash::make('password')
             ]);
 
-            // create roles and assign created permissions
-
-            $role = Role::create([
-                'name' => 'super-admin'
-            ]);
-            $role->givePermissionTo(Permission::all());
-
-            $superAdmin->assignRole($role);
+            $superAdmin->assignRole($superAdminRole);
         }
 
     }
@@ -51,29 +73,164 @@ class RoleAndPermissionSeeder extends Seeder
     {
         return [
             //Users Permissions
-            'users create' => true,
-            'users edit' => true,
-            'users list' => true,
-            'users delete' => true,
-            'users restore' => true,
+            'users create' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => false,
+                'porteiro' => false,
+            ],
+            'users edit' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => false,
+                'porteiro' => true,
+            ],
+            'users list' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => true,
+                'porteiro' => true,
+            ],
+            'users delete' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => false,
+                'porteiro' => false,
+            ],
+            'users restore' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => false,
+                'porteiro' => false,
+            ],
+
             //Blocks Permissions
-            'blocks create' => true,
-            'blocks edit' => true,
-            'blocks list' => true,
-            'blocks delete' => true,
-            'blocks restore' => true,
+            'blocks create' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => false,
+                'porteiro' => false,
+            ],
+            'blocks edit' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => false,
+                'porteiro' => false,
+            ],
+            'blocks list' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => true,
+                'porteiro' => true,
+            ],
+            'blocks delete' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => false,
+                'porteiro' => false,
+            ],
+            'blocks restore' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => false,
+                'porteiro' => false,
+            ],
+
             //Apartments Permissions
-            'apartments create' => true,
-            'apartments edit' => true,
-            'apartments list' => true,
-            'apartments delete' => true,
-            'apartments restore' => true,
+            'apartments create' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => false,
+                'porteiro' => false,
+            ],
+            'apartments edit' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => false,
+                'porteiro' => false,
+            ],
+            'apartments list' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => true,
+                'porteiro' => true,
+            ],
+            'apartments delete' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => false,
+                'porteiro' => false,
+            ],
+            'apartments restore' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => false,
+                'porteiro' => false,
+            ],
+
             //Visitors Permissions
-            'visitors create' => true,
-            'visitors edit' => true,
-            'visitors list' => true,
-            'visitors delete' => true,
-            'visitors restore' => true,
+            'visitors create' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => true,
+                'porteiro' => true,
+            ],
+            'visitors edit' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => true,
+                'porteiro' => true,
+            ],
+            'visitors list' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => true,
+                'porteiro' => true,
+            ],
+            'visitors delete' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => false,
+                'porteiro' => false,
+            ],
+            'visitors restore' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => false,
+                'porteiro' => false,
+            ],
+
+            //Common Areas Permissions
+            'common-areas create' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => false,
+                'porteiro' => false,
+            ],
+            'common-areas edit' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => false,
+                'porteiro' => false,
+            ],
+            'common-areas list' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => true,
+                'porteiro' => true,
+            ],
+            'common-areas delete' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => false,
+                'porteiro' => false,
+            ],
+            'common-areas restore' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => false,
+                'porteiro' => false,
+            ],
 
         ];
     }
