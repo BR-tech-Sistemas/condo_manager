@@ -1,97 +1,64 @@
 
-![Logo do projeto](https://i.imgur.com/pUTXM4h.png)
+![Logo do projeto](https://i.imgur.com/7UlhGHp.png)
 
-# LaraFilaSkeleton
+# Condo Manager
 
-This repository is a Skeleton of the Latest Laravel with FilamentPHP and docker.
+![GitHub issues](https://badgen.net/github/issues/BR-tech-Sistemas/condo_manager)
+![GitHub Release](https://badgen.net/github/release/BR-tech-Sistemas/condo_manager)
+![GitHub](https://badgen.net/github/license/BR-tech-Sistemas/condo_manager)
+![GitHub last commit](https://badgen.net/github/last-commit/BR-tech-Sistemas/condo_manager)
 
-## 🔥 Introduction
+[English] | [Português]
 
-This repository aim to speed up the time to start new projects that is built upon Docker, Laravel and FilamentPHP.
+This repository is a project to manage condominiums, it's built upon Docker, Laravel and FilamentPHP. 
+It'll be possible to manage apartments and residents, as well as schedule common areas, such as pools and whatever is added to the manager.
+The condo manager application will have a poll system, where the residents can vote for the next improvements in the condominium.
+I'm open to suggestions and contributions, feel free to open an issue or a pull request.
 
-You'll need just some quick steps to focus on what matters, `coding!` 
-
-### ⚙️ Prerequisites
-
-You'll just need the follow technologies:
-
-- Git
-- Docker
+Este repositório é um projeto para gerenciar condomínios, é construído com Docker, Laravel e FilamentPHP.
+Será possível gerenciar apartamentos e moradores, bem como agendar áreas comuns, como piscinas e o que mais for adicionado ao gerenciador.
+O aplicativo de gerenciamento de condomínio terá um sistema de enquetes, onde os moradores podem votar nas próximas melhorias no condomínio.
+Estou aberto a sugestões e contribuições, sinta-se à vontade para abrir uma issue ou um pull request.
 
 
-### 🔨 How to Start
+## 📝 Table of Contents
 
-Here is the steps need to start your next project.
+- [🔥 Description of the project](#-description-of-the-project)
+- [⚙️ Status of the project](#-status-of-the-project)
+- [🔨 Functionalities implemented and to be implemented](#-functionalities-implemented-and-to-be-implemented)
+- [📦 What we use here](#-what-we-use-here)
+- [👷 Author](#-author)
+- [📄 License](#-license)
+- [💡 Support](#-support)
 
-1. **First, let's clone the repository:**
-    ```bash
-    git clone https://github.com/Braiani/LaraFilaSkeleton.git project-name
-    ```
-    ```bash
-    cd project-name
-    ```
-    Remember to change the `prject-name` with the name of your project
-2. **After clone, it's time to remove the git folder of the LaraFilaSkeleton:**
 
-    ```bash
-    sudo rm -R .git/
-    sudo rm -R .github/
-    ```
-3. **Now, let's copy the `.env.default` file:**
+## 🔥 Description of the project
 
-    ```bash
-    cp .env.default .env
-    ```
-    Edit the new `.env` file as you need, we recommend you to change the following variables:
-    * APP_NAME
-    * APP_URL
-    * APP_LOCALE
-    * APP_TIMEZONE
-    * DB_DATABASE
-    * DB_USERNAME
-    * DB_PASSWORD
+The project is a condominium manager, where it will be possible to manage apartments and residents, as well as schedule common areas, such as pools and whatever is added to the manager.
 
-4. **After edit the fields you judge necessary, it's time to build and run the containers:**
-    ```bash
-    docker-compose up -d
-    ```
-5. **Alternatively, you can first build and the run the container:** 
-    ```bash
-    docker-compose build
-    ```
-   ```bash
-    docker-compose up -d
-    ```
-****
+O projeto é um gerenciador de condomínios, onde será possível gerenciar apartamentos e moradores, bem como agendar áreas comuns, como piscinas e o que mais for adicionado ao gerenciador.
 
-### With everything done, we can execute our Laravel's container and run some Laravel code:
+## ⚙️ Status of the project
 
-1. **First, let's jump into the container:**
-    ```bash
-    docker exec -it laravel_project-name /bin/bash
-    ```
-    Ps: The name after the `-it` is the Laravel's container name, by default it's the following: `laravel_LaraFilaSkeleton`.
-2. **When inside the container, we need to generate the key, migrate the database and seed with the Admin user:**
-    ```bash
-    php artisan key:generate
-    ``` 
-    ```bash
-    php artisan migrate --seed
-    ``` 
-****
+This project is under development, the first version will be released soon.
 
-That's all we need.
+Este projeto está em desenvolvimento, a primeira versão será lançada em breve.
 
-Now, just go to localhost and make sure everything is running ok!
 
-Try accessing the admin area [http://localhost/admin](http://localhost/admin)
+## 🔨 Functionalities implemented and to be implemented
 
-The default credentials are:
+- [x] Create a new apartment | Criar um novo apartamento
+- [x] Create a new resident | Criar um novo morador
+- [x] Create a new visitor | Criar um novo visitante
+- [x] Create a new common area | Criar uma nova área comum
+- [x] Register a visit | Registrar uma visita
+- [ ] Schedule a common area | Agendar uma área comum
+- [ ] Create a new poll | Criar uma nova enquete
+- [ ] Vote in a poll | Votar em uma enquete
+- [ ] Create a new rule | Criar uma nova regra
+- [ ] Create a new announcement | Criar um novo anúncio
+- [ ] Create a new document | Criar um novo documento
 
-- e-mail: `admin@admin.com`
-- password: `password`
-
-****
 
 ## 📦 What we use here:
 
@@ -103,6 +70,7 @@ The default credentials are:
 ## 👷 Author
 
 1. **Felipe Braiani** - *Developer/[CEO of BR tech Sistemas](https://brtechsistemas.com.br/)* - [Braiani](https://github.com/Braiani)
+
 
 ## 📄 License
 
