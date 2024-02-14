@@ -5,10 +5,11 @@ namespace App\Models;
 use App\Traits\HasCondo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Visitor extends Model
 {
-    use HasCondo;
+    use HasCondo, SoftDeletes;
 
     protected $fillable = [
         'name',

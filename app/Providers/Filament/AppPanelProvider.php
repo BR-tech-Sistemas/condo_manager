@@ -72,6 +72,7 @@ class AppPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
+            ->databaseNotifications()
             ->tenant(Condo::class, ownershipRelationship: 'condos')
             ->tenantRegistration(RegisterCondo::class);
     }

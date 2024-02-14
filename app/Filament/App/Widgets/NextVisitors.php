@@ -9,6 +9,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Split;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
@@ -52,6 +53,26 @@ class NextVisitors extends BaseWidget
                 Tables\Columns\TextColumn::make('exit_date')
                     ->label('Data de Saída')
                     ->dateTime('d/m/Y H:i'),
+            ])
+            ->actions([
+                Tables\Actions\Action::make('Registrar Entrada')
+                    ->color('warning')
+                    ->visible(auth()->user()->hasAnyRole(['Síndico', 'Porteiro']))
+                    ->action(function (Visitor $visitor) {
+                        $visitor->loadMissing('apartment.residents.user');
+                        $recipients = $visitor->apartment->residents;
+                        foreach ($recipients as $recipient) {
+                            Notification::make()
+                                ->title('Entrada de Visitante Registrada')
+                                ->warning()
+                                ->sendToDatabase($recipient->user);
+                        }
+                        Notification::make()
+                            ->title('Entrada Registrada')
+                            ->success()
+                            ->send();
+                    })
+                    ->icon('heroicon-o-arrow-left-end-on-rectangle'),
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make('Cadastrar novo Visitante')

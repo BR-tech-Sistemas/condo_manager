@@ -8,6 +8,7 @@ use App\Models\Visitor;
 use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -169,17 +170,29 @@ class VisitorResource extends Resource
             ])
             ->defaultSort('entry_date')
             ->filters([
-                /*Tables\Filters\TrashedFilter::make(),*/
+                Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\EditAction::make(),
-                    Tables\Actions\DeleteAction::make(),
-                    Tables\Actions\Action::make('Registrar Entrada')
-                        ->icon('heroicon-o-identification')
-                        ->color('warning')
-                        ->visible(auth()->user()->hasAnyRole(['Síndico', 'Porteiro'])),
-                ])
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\Action::make('Registrar Entrada')
+                    ->icon('heroicon-o-identification')
+                    ->color('warning')
+                    ->visible(auth()->user()->hasAnyRole(['Síndico', 'Porteiro']))
+                    ->action(function (Visitor $visitor) {
+                        $visitor->loadMissing('apartment.residents.user');
+                        $recipients = $visitor->apartment->residents;
+                        foreach ($recipients as $recipient) {
+                            Notification::make()
+                                ->title('Entrada de Visitante Registrada')
+                                ->warning()
+                                ->sendToDatabase($recipient->user);
+                        }
+                        Notification::make()
+                            ->title('Entrada Registrada')
+                            ->success()
+                            ->send();
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
