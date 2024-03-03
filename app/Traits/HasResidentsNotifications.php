@@ -23,7 +23,7 @@ trait HasResidentsNotifications
         ?string $notificationBody = null
     ): void
     {
-        $typeAllowed = ['success', 'info', 'warning', 'error'];
+        $typeAllowed = ['success', 'info', 'warning', 'danger'];
 
         if (!in_array($notificationType, $typeAllowed)) {
             throw new \InvalidArgumentException('Invalid notification type');

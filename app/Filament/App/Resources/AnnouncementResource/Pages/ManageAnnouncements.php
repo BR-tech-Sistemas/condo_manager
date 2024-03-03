@@ -25,7 +25,7 @@ class ManageAnnouncements extends ManageRecords
                     $notificationType = match ($record->priority) {
                         'low' => 'info',
                         'medium' => 'warning',
-                        'high' => 'error',
+                        'high' => 'danger',
                     };
 
                     $this->sendNotificationToResidents(

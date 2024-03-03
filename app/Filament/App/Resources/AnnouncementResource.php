@@ -33,7 +33,7 @@ class AnnouncementResource extends Resource
                             ->label('Título')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\Textarea::make('description')
+                        Forms\Components\RichEditor::make('description')
                             ->label('Descrição')
                             ->required(),
                         Forms\Components\ToggleButtons::make('show_dashboard')
@@ -71,7 +71,9 @@ class AnnouncementResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('description')
                     ->label('Descrição')
-                    ->searchable(),
+                    ->html()
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\IconColumn::make('show_dashboard')
                     ->boolean()
                     ->alignCenter()
@@ -84,7 +86,7 @@ class AnnouncementResource extends Resource
                     ->label('Prioridade')
                     ->badge()
                     ->color(fn (Announcement $record) => match ($record->priority) {
-                        'high' => 'error',
+                        'high' => 'danger',
                         'medium' => 'warning',
                         'low' => 'success',
                     })
