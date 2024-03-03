@@ -10,7 +10,7 @@ return new class extends Migration {
         Schema::create('announcements', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('description');
+            $table->longText('description');
             $table->boolean('show_dashboard')->default(false);
             $table->string('priority');
             $table->date('valid_until')->nullable();
