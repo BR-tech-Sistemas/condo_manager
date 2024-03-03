@@ -3,6 +3,7 @@
 namespace App\Filament\App\Widgets;
 
 use App\Models\Apartment;
+use App\Traits\VisibilityOfWidget;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -10,6 +11,8 @@ use Filament\Widgets\TableWidget as BaseWidget;
 
 class ApartmentsForSale extends BaseWidget
 {
+    use VisibilityOfWidget;
+
     protected static ?int $sort = 3;
     protected int|string|array $columnSpan = 1;
     protected static ?string $heading = 'Apartamentos para Vender';
@@ -36,5 +39,15 @@ class ApartmentsForSale extends BaseWidget
             ->paginated(false)
             ->emptyStateIcon('heroicon-o-home')
             ->emptyStateHeading('Nenhum apartamento para vender.');
+    }
+
+    /**
+     * Set the roles allowed to view this widget.
+     *
+     * @return string[]
+     */
+    protected static function getRolesAllowed(): array
+    {
+        return ['Síndico', 'Porteiro'];
     }
 }

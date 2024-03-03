@@ -3,6 +3,7 @@
 namespace App\Filament\App\Widgets;
 
 use App\Models\Visitor;
+use App\Traits\VisibilityOfWidget;
 use Filament\Facades\Filament;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Section;
@@ -20,9 +21,21 @@ use Leandrocfe\FilamentPtbrFormFields\PhoneNumber;
 
 class NextVisitors extends BaseWidget
 {
+    use VisibilityOfWidget;
+
     protected static ?int $sort = -1;
     protected static ?string $heading = 'Próximos Visitantes Cadastrados';
     protected int|string|array $columnSpan = 'full';
+
+    /**
+     * Set the roles allowed to view this widget.
+     *
+     * @return string[]
+     */
+    protected static function getRolesAllowed(): array
+    {
+        return ['Síndico', 'Porteiro'];
+    }
 
     public function table(Table $table): Table
     {

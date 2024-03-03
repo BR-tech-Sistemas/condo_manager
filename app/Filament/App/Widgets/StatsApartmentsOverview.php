@@ -3,6 +3,7 @@
 namespace App\Filament\App\Widgets;
 
 use App\Models\Block;
+use App\Traits\VisibilityOfWidget;
 use Filament\Facades\Filament;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class StatsApartmentsOverview extends BaseWidget
 {
-
+    use VisibilityOfWidget;
     protected static ?string $pollingInterval = null;
 
     protected function getStats(): array
