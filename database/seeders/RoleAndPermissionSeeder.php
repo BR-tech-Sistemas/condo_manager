@@ -232,6 +232,38 @@ class RoleAndPermissionSeeder extends Seeder
                 'porteiro' => false,
             ],
 
+            //Announcements Permissions
+            'announcements create' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => false,
+                'porteiro' => false,
+            ],
+            'announcements edit' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => false,
+                'porteiro' => false,
+            ],
+            'announcements list' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => true,
+                'porteiro' => true,
+            ],
+            'announcements delete' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => false,
+                'porteiro' => false,
+            ],
+            'announcements restore' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => false,
+                'porteiro' => false,
+            ],
+
         ];
     }
 }

@@ -48,4 +48,12 @@ class Condo extends Model
     {
         return $this->hasMany(CommonArea::class);
     }
+
+    /**
+     * @return HasMany
+     */
+    public function announcements(): HasMany
+    {
+        return $this->hasMany(Announcement::class);
+    }
 }
