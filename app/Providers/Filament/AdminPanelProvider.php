@@ -11,6 +11,7 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -29,6 +30,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->topNavigation()
+            ->login()
             ->spa()
             ->colors([
                 'primary' => Color::Cyan,
@@ -46,13 +48,12 @@ class AdminPanelProvider extends PanelProvider
                     ->url('/app')
             ])
             ->renderHook(
-                'panels::body.end',
+                PanelsRenderHook::BODY_END,
                 fn () => (new Vite)([])
             )
             ->discoverWidgets(in: app_path('Filament/Admin/Widgets'), for: 'App\\Filament\\Admin\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -66,7 +67,7 @@ class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->authMiddleware([
-                AdminFilamentAuthenticate::class,
+                Authenticate::class,
             ]);
     }
 }

@@ -12,6 +12,7 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -44,14 +45,14 @@ class AppPanelProvider extends PanelProvider
                 Pages\Dashboard::class,
             ])
             ->renderHook(
-                'panels::body.end',
+                PanelsRenderHook::BODY_END,
                 fn () => (new Vite)([])
             )
             ->userMenuItems([
                 MenuItem::make()
                     ->label('Admin')
                     ->icon('heroicon-o-cog')
-                    ->visible(auth()->user()?->isSuperAdmin() ?? false)
+                    ->visible(fn (): bool => auth()->user()?->hasAnyRole(['super-admin']))
                     ->url('/admin')
             ])
             ->discoverWidgets(in: app_path('Filament/App/Widgets'), for: 'App\\Filament\\App\\Widgets')
