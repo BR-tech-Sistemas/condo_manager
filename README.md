@@ -52,12 +52,13 @@ Este projeto está em desenvolvimento, a primeira versão será lançada em brev
 - [x] Create a new visitor | Criar um novo visitante
 - [x] Create a new common area | Criar uma nova área comum
 - [x] Register a visit | Registrar uma visita
-- [ ] Schedule a common area | Agendar uma área comum
+- [x] Create and manage announcements | Criar e gerenciar anúncios
+- [ ] Integrates with a payment gateway | Integração com um gateway de pagamento
+- [ ] Create a new rule | Criar uma nova regra
+- [ ] Create a new document | Criar um novo documento
 - [ ] Create a new poll | Criar uma nova enquete
 - [ ] Vote in a poll | Votar em uma enquete
-- [ ] Create a new rule | Criar uma nova regra
-- [ ] Create a new announcement | Criar um novo anúncio
-- [ ] Create a new document | Criar um novo documento
+- [ ] Schedule a common area | Agendar uma área comum
 
 
 ## 📦 What we use here:
