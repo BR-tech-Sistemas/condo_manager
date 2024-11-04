@@ -264,6 +264,38 @@ class RoleAndPermissionSeeder extends Seeder
                 'porteiro' => false,
             ],
 
+            //Rules Permissions
+            'rules create' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => false,
+                'porteiro' => false,
+            ],
+            'rules edit' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => false,
+                'porteiro' => false,
+            ],
+            'rules list' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => true,
+                'porteiro' => true,
+            ],
+            'rules delete' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => false,
+                'porteiro' => false,
+            ],
+            'rules restore' => [
+                'super-admin' => true,
+                'sindico' => true,
+                'condomino' => false,
+                'porteiro' => false,
+            ],
+
         ];
     }
 }

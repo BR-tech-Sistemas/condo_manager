@@ -56,4 +56,12 @@ class Condo extends Model
     {
         return $this->hasMany(Announcement::class);
     }
+
+    /**
+     * @return HasMany
+     */
+    public function rules(): HasMany
+    {
+        return $this->hasMany(Rule::class);
+    }
 }
